@@ -1,0 +1,244 @@
+<div id="MainContent">
+{% assign tabnew_collection = section.settings.button_link_111 %}
+<div class="Recipe-Bank">
+  <div class="container">
+    <div class="row">
+      <div class="blog-cat colecsn-nav">
+        <div class="container">
+          <div class="row">
+          <div class="col-sm-3">
+            {%if section.settings.rcipe-title != blank%}<h6 class="h4">{{section.settings.rcipe-title}}</h6>{%endif%}
+          </div>
+          <div class="col-sm-9">
+            
+                 {% assign Breakfast = settings.tag_1_name %}
+                  {% assign Dessert = settings.tag_2_name %}
+                  {% assign Lunch = settings.tag_3_name %}
+                  {% assign Dinner = settings.tag_4_name %}
+                 
+            
+            {% assign tags = section.settings.shop_by_tags_2_list_tags | split: ',' %} 
+            <ul>
+              {% for tag in tags %}
+              {% assign tag_value = tag | handleize %}
+              {% capture url %}/collections/{{ tabnew_collection }}/{{ tag | handle }}{% endcapture %}
+              {% if current_tags contains tag %}
+              <li data-group="mealtype" data-handle="{{ tag | handle }}"
+                  
+                  
+                       style="{% if tag contains Breakfast %}
+ background:url({{ settings.icon_1 | img_url: '100X100' }}) no-repeat 0 0;
+     {% elsif tag contains Dessert %}
+ background:url({{ settings.icon_2 | img_url: '100X100' }}) no-repeat 0 0;
+     {% elsif tag contains Lunch %}
+ background:url({{ settings.icon_3 | img_url: '100X100' }}) no-repeat 0 0;
+     {% elsif tag contains Dinner %}
+ background:url({{ settings.icon_4 | img_url: '100X100' }}) no-repeat 0 0;
+  
+ {%endif%}" 
+                  class="jsActive year-filter-option advance-filters active-filter {{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' }}">{{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' | link_to: url }}</li>
+              {% else%}
+              <li data-group="mealtype" data-handle="{{ tag | handle }}"
+                  
+                  
+style="{% if tag contains Breakfast %}
+ background:url({{ settings.icon_1 | img_url: '100X100' }}) no-repeat 0 0;
+     {% elsif tag contains Dessert %}
+ background:url({{ settings.icon_2 | img_url: '100X100' }}) no-repeat 0 0;
+     {% elsif tag contains Lunch %}
+ background:url({{ settings.icon_3 | img_url: '100X100' }}) no-repeat 0 0;
+     {% elsif tag contains Dinner %}
+ background:url({{ settings.icon_4 | img_url: '100X100' }}) no-repeat 0 0;
+  
+ {%endif%}" 
+                  
+                  class="jsActive year-filter-option advance-filters {{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' }}">{{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' | link_to: url }}</li>
+              {%endif%}
+              {% endfor %}
+            </ul>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% paginate collections[section.settings.button_link_111].products by 8 %}
+    <div class="ajax-year-filter portal-blog-list">   
+      <div class="clearfix row collection-page">
+        <div class="EndlessClick">
+        <div class="container_custom">        
+          <div class="products-grid product-grid-item">
+            {% for product in collections[section.settings.button_link_111].products %}
+            <div class="col-sm-3 pro-list">
+              {% for image in product.images limit:1 %}
+              <div class="responsive-img">
+                <img src="{{ image.src | img_url: '1024x1024' }}" alt="{{ image.alt | escape }}">
+              </div>
+              {% endfor %}
+              <div class="product-bot">
+                
+                <div class="meal-block">
+                  {% assign Breakfast = settings.tag_1_name %}
+                  {% assign Dessert = settings.tag_2_name %}
+                  {% assign Lunch = settings.tag_3_name %}
+                  {% assign Dinner = settings.tag_4_name %}
+                   
+                  {% if product.tags contains Breakfast %} 
+                  <span> <img src="{{ settings.icon_1 | img_url: '100X100' }}"/> </span>
+                  {%endif%}
+                  
+                  {%if product.tags contains Dessert %}
+                  <span> <img src="{{ settings.icon_2 | img_url: '100X100' }}"/> </span>
+                  {%endif%}
+                  
+                  {%if product.tags contains Lunch %}
+                  <span> <img src="{{ settings.icon_3 | img_url: '100X100' }}"/> </span>
+                  {%endif%}
+                
+                  {%if product.tags contains Dinner %}
+                  <span> <img src="{{ settings.icon_4 | img_url: '100X100' }}"/> </span>        
+                  {%endif%}
+                </div>
+
+               <div class="product_pric">
+                  <div class="product_loop_switcher1">
+                    <div class="price-box">
+                      <p class="regular-product">
+                        <span >{% if product.price_varies %}<em>from </em>{% endif %}{{ product.price_min | money_without_currency | remove: '.00' }}kcal</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <div class="dietary-block">
+                  {% assign Gluten = settings.tag_5_name %}
+                  {% assign Dairy = settings.tag_6_name %}
+                  {% assign Vegetarian = settings.tag_7_name %}
+                  {% assign Vegan = settings.tag_8_name %}
+                  
+                  {% if product.tags contains Gluten %} 
+                  <span> <img src="{{ settings.icon_5 | img_url: '100X100' }}"/><a href="#" data-toggle="tooltip" title="Gluten"></a> </span>
+                  {%endif%}
+                  
+                  {% if product.tags contains Dairy %} 
+                  <span> <img src="{{ settings.icon_6 | img_url: '100X100' }}"/><a href="#" data-toggle="tooltip" title="Dairy"></a> </span>
+                  {%endif%}
+                  
+                  {% if product.tags contains Vegetarian %} 
+                  <span> <img src="{{ settings.icon_7 | img_url: '100X100' }}"/><a href="#" data-toggle="tooltip" title="Vegetarian"></a>  </span>
+                  {%endif%}
+                  
+                  {% if product.tags contains Vegan %} 
+                  <span> <img src="{{ settings.icon_8 | img_url: '100X100' }}"/><a href="#" data-toggle="tooltip" title="Vegan"></a> </span>
+                  {%endif%}
+                </div>
+               
+                
+                  <h6>
+                  <a class="product-title" href="{{ product.url | within: collection }}">{{ product.title | truncatewords: 2 ,'' }}</a>
+                  </h6>
+               
+               </div>
+            </div>
+            {% endfor %}
+             {% if paginate.next %}
+            <div class="pagination">
+              <a href="{{ paginate.next.url }}">Show More</a>
+            </div>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    {% endpaginate %}
+       </div>
+  </div>
+</div>
+
+<style>
+  .colecsn-nav li a {
+    padding: 11px 10px 10px 20px;
+    display: block;
+  }
+  .colecsn-nav .lunch a {  background:url(lunch.png) no-repeat 0; } 
+</style>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+<script>
+  $(function() { 
+    var  activeYear  = $('.year-filter-option [data-group="year"]').data('handle');
+
+    $(document).on('click', '.year-filter-option', function(e){
+      e.preventDefault();
+      $('.jsActive').removeClass('active');
+      $(this).addClass('active');
+      el = $(this);
+      activeYear = el.data('handle');
+      //alert(activeYear);
+      filter_data(); 
+    });
+    function filter_data(){
+      var base_url = window.location.origin+'/collections/{{ tabnew_collection }}/';
+      var slug = '';
+      if(activeYear){
+        slug += activeYear;   
+      }
+      var get_url = base_url+slug;
+      $('.product-grid-item').html('<div class="_jsLoaderDiv"><img class="_jsLoader" src="https://cdn.shopify.com/s/files/1/2358/5863/t/5/assets/loading.gif" ></div>');
+      $.get(get_url, function(data){
+        $content =  $(data).find('.collection-page').html();
+        $('.collection-page').html($content);      
+
+      });
+    }  
+  });
+</script> 
+
+
+
+{% schema %}
+{
+"name": "Eatwell Mealplan recipe",
+"settings": [
+  {
+    "type": "text",
+    "id": "rcipe-title",
+    "label": " rcipe-link-title "
+  },
+  {
+    "type": "collection",
+    "id": "button_link_111",
+    "label": "link"
+  },
+  {
+    "type": "text",
+    "id": "shop_by_tags_2_list_tags",
+    "label": "Shop by tags",
+    "default": "mealtype_breakfast, mealtype_lunch, mealtype_dinner, mealtype_dessert",
+    "info": "Separate by a comma, i.e \"XS, S, M, L, XL\"."
+  },
+  {
+    "type": "text",
+    "id": "title",
+    "label": " recipe-link-title "
+  },
+  {
+    "type": "url",
+    "id": "button_link_1",
+    "label": "link"
+  }
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
