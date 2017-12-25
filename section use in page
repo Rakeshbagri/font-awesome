@@ -1,0 +1,74 @@
+<div id="MainContent">
+{% assign tabnew_collection = section.settings.button_link_111 %}
+<div class="Recipe-Bank">
+  <div class="container">
+    <div class="row">
+      <div class="blog-cat colecsn-nav">
+        <div class="container">
+          <div class="row">
+          <div class="col-sm-3">
+            {%if section.settings.rcipe-title != blank%}<h6 class="h4">{{section.settings.rcipe-title}}</h6>{%endif%}
+          </div>
+          <div class="col-sm-9">
+            
+            {% assign tags = section.settings.shop_by_tags_2_list_tags | split: ',' %} 
+            <ul>
+              {% for tag in tags %}
+              {% assign tag_value = tag | handleize %}
+              {% capture url %}/collections/{{ tabnew_collection }}/{{ tag | handle }}{% endcapture %}
+              {% if current_tags contains tag %}
+              <li data-group="mealtype" data-handle="{{ tag | handle }}" class="jsActive year-filter-option advance-filters active-filter {{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' }}">{{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' | link_to: url }}</li>
+              {% else%}
+              <li data-group="mealtype" data-handle="{{ tag | handle }}" class="jsActive year-filter-option advance-filters {{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' }}">{{tag | remove_first: 'mealtype'  | remove_first: '_' |replace: '-',' ' | link_to: url }}</li>
+              {%endif%}
+              {% endfor %}
+            </ul>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% paginate collections[section.settings.button_link_111].products by 8 %}
+    <div class="ajax-year-filter portal-blog-list">   
+      <div class="clearfix row collection-page">
+          show product here 
+    </div>
+    </div>
+    {% endpaginate %}
+       </div>
+  </div>
+</div>
+
+ 
+
+<script>
+  $(function() { 
+    var  activeYear  = $('.year-filter-option [data-group="year"]').data('handle');
+
+    $(document).on('click', '.year-filter-option', function(e){
+      e.preventDefault();
+      $('.jsActive').removeClass('active');
+      $(this).addClass('active');
+      el = $(this);
+      activeYear = el.data('handle');
+      //alert(activeYear);
+      filter_data(); 
+    });
+    function filter_data(){
+      var base_url = window.location.origin+'/collections/{{ tabnew_collection }}/';
+      var slug = '';
+      if(activeYear){
+        slug += activeYear;   
+      }
+      var get_url = base_url+slug;
+      $('.product-grid-item').html('<div class="_jsLoaderDiv"><img class="_jsLoader" src="https://cdn.shopify.com/s/files/1/2358/5863/t/5/assets/loading.gif" ></div>');
+      $.get(get_url, function(data){
+        $content =  $(data).find('.collection-page').html();
+        $('.collection-page').html($content);      
+
+      });
+    }  
+  });
+</script> 
+
